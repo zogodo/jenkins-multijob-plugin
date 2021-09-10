@@ -6,6 +6,7 @@
 		<j:choose>
 			<j:when test="${job.phase}">
 				${job.isConditional() ? "[?]" : ""} ${job.displayName}
+				<span style='position:absolute;padding-left:20px;'>${job.getRunStatus()}</span>
 			</j:when>
 			<j:when test="${!job.phase}">
 				<a href="${job.absoluteUrl}">${job.displayName}</a>

@@ -74,6 +74,8 @@ public class MultiJobBuilder extends Builder implements DependecyDeclarer {
      */
     public static final String BUILD_ALWAYS_KEY = "hudson.scm.multijob.build.always";
     private static final String DEFAULT_QUIET_PERIOD_GROOVY = "0";
+    public static int passNum = 0;
+    public static int falseNum = 0;
 
     private String phaseName;
     private List<PhaseJobsConfig> phaseJobs;
@@ -766,10 +768,14 @@ public class MultiJobBuilder extends Builder implements DependecyDeclarer {
 			jobDisplayName += " (" + phaseConfig.getJobAlias() + ")";
 		}
 
-        listener.getLogger().printf("Finished Build : %s of Job : %s with status : %s at %tT%n",
+        listener.getLogger().printf("\nFinished Build : %s of Job : %s with status : %s at %tT%n",
                 HyperlinkNote.encodeTo("/" + jobBuild.getUrl() + "/", String.valueOf(jobBuild.getDisplayName())),
                 HyperlinkNote.encodeTo('/' + jobBuild.getParent().getUrl(), jobDisplayName),
                 HyperlinkNote.encodeTo('/' + jobBuild.getUrl() + "/console", result.toString()), new Date());
+
+        if (result == Result.SUCCESS) passNum++;
+        else falseNum++;
+        listener.getLogger().printf("passNum[%d] falseNum[%d]\n", passNum, falseNum);
     }
 
     private void updateSubBuild(MultiJobBuild multiJobBuild,

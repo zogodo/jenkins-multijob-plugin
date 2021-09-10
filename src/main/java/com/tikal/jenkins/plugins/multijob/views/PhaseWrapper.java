@@ -85,8 +85,27 @@ public class PhaseWrapper extends AbstractWrapper {
         builder.append("padding-left:");
         builder.append(String.valueOf((nestLevel + 1) * 20));
         builder.append("px;");
-        builder.append("font-style:italic;font-size:smaller;font-weight:bold;");
+        builder.append("font-size:smaller;font-weight:bold;");
         return builder.toString();
+    }
+
+    public String getRunStatus() {
+        int passNum = 0;
+        int falseNum = 0;
+        int doingNum = 0;
+        for (BuildState buildState : childrenBuildState) {
+            Job project = (Job) Jenkins.getInstance().getItemByFullName(buildState.getJobName());
+            if (project == null) continue;
+            Run build = (Run) project.getBuildByNumber(buildState.getLastBuildNumber());
+            if (build == null) continue;
+            if (build.getIconColor() == BallColor.BLUE) passNum++;
+            if (build.getIconColor() == BallColor.RED) falseNum++;
+            if (build.getIconColor().toString().contains("anime")) doingNum++;
+        }
+        int totalNum = childrenBuildState.size();
+        int waitingNum = totalNum - passNum - falseNum - doingNum;
+        return String.format("total:%d pass:%d false:%d doing:%d waiting:%d",
+                totalNum, passNum, falseNum, doingNum, waitingNum);
     }
 
     public String getPhaseName() {

@@ -9,4 +9,5 @@
 .factorypath
 pom.xml.releaseBackup
 release.properties
+*.hpi
 

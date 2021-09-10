@@ -15,16 +15,7 @@ import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
-import hudson.model.Run;
-import hudson.model.AbstractProject;
-import hudson.model.Action;
-import hudson.model.Build;
-import hudson.model.BuildListener;
-import hudson.model.ParameterValue;
-import hudson.model.ParametersAction;
-import hudson.model.Result;
-import hudson.model.Run;
-import hudson.model.StringParameterValue;
+import hudson.model.*;
 import hudson.scm.ChangeLogSet;
 import hudson.scm.ChangeLogSet.Entry;
 import javax.annotation.CheckForNull;
@@ -278,6 +269,19 @@ public class MultiJobBuild extends Build<MultiJobProject, MultiJobBuild> {
         @Exported
         public String getPhaseName() {
             return phaseName;
+            /*
+            int passNum = 0;
+            int falseNum = 0;
+            List<SubBuild> allBuilds = ((MultiJobBuild)this.getBuild()).getSubBuilds();
+            if (allBuilds == null) return phaseName + " xxx";
+            for (SubBuild build : allBuilds) {
+                if (build == null) continue;
+                if (build.getIcon() == BallColor.BLUE.getImage()) passNum++;
+                if (build.getIcon() == BallColor.RED.getImage()) falseNum++;
+            }
+            return phaseName + String.format(" - total:%d pass:%d false:%d",
+                    allBuilds.size(), passNum, falseNum);
+            */
         }
 
         @Exported
