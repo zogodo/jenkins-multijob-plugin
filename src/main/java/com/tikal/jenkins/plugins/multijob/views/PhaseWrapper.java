@@ -104,7 +104,7 @@ public class PhaseWrapper extends AbstractWrapper {
         }
         int totalNum = childrenBuildState.size();
         int waitingNum = totalNum - passNum - falseNum - doingNum;
-        return String.format("total:%d pass:%d false:%d doing:%d waiting:%d",
+        return String.format("total:%d -- pass:%d -- fail:%d -- doing:%d -- waiting:%d",
                 totalNum, passNum, falseNum, doingNum, waitingNum);
     }
 
